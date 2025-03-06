@@ -25,7 +25,9 @@ Andrea Vedaldi
 Andreas Krause
 Andreas Stuhlmüller
 Andrew Critch
+Anna Sztyber-Betley
 Anqi (Angie) Liu
+Anqi Liu
 Anthony DiGiovanni
 Ari Holtzman
 Ariel Procaccia
@@ -128,6 +130,7 @@ Jacques Thibodeau
 Jaime Fernández Fisac
 Jakob Foerster
 James Fox
+Jan Betley
 Jan Brauner
 Jan Leike
 Jared Kaplan
