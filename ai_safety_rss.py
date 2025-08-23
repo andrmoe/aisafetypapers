@@ -1,14 +1,17 @@
 from typing import Generator
 import reader
+import os
 
+dir = os.path.dirname(__file__)
 
 def load_authors() -> Generator[str, None, None]:
-    with open("authors.txt", "r", encoding="utf-8") as f:
+    with open(f"{dir}/authors.txt", "r", encoding="utf-8") as f:
         for line in f.readlines():
             yield line[:-1]
 
 def create_html(min_alignment_author_position: int = 2) -> str | None:
     r = reader.make_reader('db.sqlite')
+    #r.add_feed("https://rss.arxiv.org/rss/cs.ai")
     r.update_feeds()
     entries = r.get_entries(read=False)
     authors = list(load_authors())
@@ -33,7 +36,7 @@ def create_html(min_alignment_author_position: int = 2) -> str | None:
             author_list = author_list.replace(a, f'<b>{a}</b>')
         email_str += f'<h2><a href={paper.link}>{paper.title}</a></h2>\n'
         email_str += author_list+'<br/>\n'
-        email_str += f'<p>Abstract: {paper.summary.split('Abstract: ')}</p>\n\n'
+        email_str += f'<p>Abstract: {paper.summary.split("Abstract: ")}</p>\n\n'
 
     email_str += "</body></html>"
 

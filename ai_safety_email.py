@@ -2,14 +2,20 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from ai_safety_rss import create_html
+import secret
+import os
+import json
 
+dir = os.path.dirname(__file__)
 
 def send_email() -> None:
     # Email configuration
-    sender_email = "andreas.moe3@gmail.com"
-    receiver_email = "mail@andreasmoe.com"
-    with open("C:/Users/andre/OneDrive/Desktop/ai_safety_papers.txt", "r") as f:
-        password = f.read()
+    conf = None
+    with open(f"{dir}/.env", "r") as f:
+        conf = json.loads(f.read())
+    sender_email = conf["sender_email"]
+    receiver_email = conf["receiver_email"]
+    password = conf["password"]
 
     # Create the email
     subject = "New Papers from AI Safety Researchers"
