@@ -1,6 +1,7 @@
 from typing import Generator
-import reader
+#import reader
 import os
+from latest_papers import fetch_papers
 
 dir = os.path.dirname(__file__)
 
@@ -10,19 +11,18 @@ def load_authors() -> Generator[str, None, None]:
             yield line[:-1]
 
 def create_html(min_alignment_author_position: int = 2) -> str | None:
-    r = reader.make_reader('db.sqlite')
+    #r = reader.make_reader('db.sqlite')
     #r.add_feed("https://rss.arxiv.org/rss/cs.ai")
-    r.update_feeds()
-    entries = r.get_entries(read=False)
-    authors = list(load_authors())
+    #r.update_feeds()
+    #entries = r.get_entries(read=False)
+    alignment_authors = list(load_authors())
     alignment_papers = []
-    for e in entries:
-        if any((name in authors) for name in e.author.split(', ')):
-            alignment_author = [name for name in e.author.split(', ') if name in authors][0]
-            alignment_author_pos = e.author.split(', ').index(alignment_author)
+    for title, date, link, summary, authors in fetch_papers():
+        if any((name in alignment_authors) for name in authors):
+            alignment_author = [name for name in authors if name in alignment_authors][0]
+            alignment_author_pos = authors.index(alignment_author)
             if alignment_author_pos < min_alignment_author_position:
-                alignment_papers.append((alignment_author_pos, e))
-                r.mark_entry_as_read(e)
+                alignment_papers.append((alignment_author_pos, (title, date, link, summary, authors)))
     alignment_papers.sort(key=lambda x: x[0])
 
     if len(alignment_papers) == 0:
@@ -31,20 +31,22 @@ def create_html(min_alignment_author_position: int = 2) -> str | None:
 
     email_str = f"<html><body><h1>New Papers from AI Safety Researchers (based on this <a href=https://airtable.com/appWAkbSGU6x8Oevt/shraOj3kb8ESTOOmh/tblCiItlYmFQqOKat>list</a>)</h1>\n\n"
     for _, paper in alignment_papers:
-        author_list = paper.author
-        for a in authors:
-            author_list = author_list.replace(a, f'<b>{a}</b>')
-        email_str += f'<h2><a href={paper.link}>{paper.title}</a></h2>\n'
-        email_str += author_list+'<br/>\n'
-        email_str += f'<p>Abstract: {paper.summary.split("Abstract: ")}</p>\n\n'
+        print(paper)
+        author_list = paper[4]
+        author_list_str = ", ".join(author_list)
+        for a in alignment_authors:
+            author_list_str = author_list_str.replace(a, f'<b>{a}</b>')
+        email_str += f'<h2><a href={paper[2]}>{paper[0]}</a></h2>\n'
+        email_str += author_list_str+'<br/>\n'
+        email_str += f'<p>Abstract: {paper[3]}</p>\n\n'
 
     email_str += "</body></html>"
 
-    with open("email.html", "w") as f:
-        f.write(email_str)
+    #with open("email.html", "w") as f:
+    #    f.write(email_str)
 
     return email_str
 
 
 if __name__ == '__main__':
-    create_html()
+    print(create_html())
