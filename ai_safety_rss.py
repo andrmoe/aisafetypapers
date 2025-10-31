@@ -31,7 +31,6 @@ def create_html(min_alignment_author_position: int = 2) -> str | None:
 
     email_str = f"<html><body><h1>New Papers from AI Safety Researchers (based on this <a href=https://airtable.com/appWAkbSGU6x8Oevt/shraOj3kb8ESTOOmh/tblCiItlYmFQqOKat>list</a>)</h1>\n\n"
     for _, paper in alignment_papers:
-        print(paper)
         author_list = paper[4]
         author_list_str = ", ".join(author_list)
         for a in alignment_authors:
