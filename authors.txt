@@ -1,5 +1,3 @@
-Aaron M. Roth
-Aaron Tucker
 Adam Gleave
 Adam Shimi
 Adrià Garriga-Alonso
@@ -10,38 +8,37 @@ Alan Chan
 Aleksander Madry
 Aleksandra Korolova
 Alessandro Abate
-Alex Tamkin
-Alex Turner
 Alexander D'Amour
 Alexander Gietelink Oldenziel
 Alexander Lyzhov
 Alexander Pan
 Alexandre Maurer
+Alex Tamkin
+Alex Turner
 Amos Azaria
 Anand Siththaranjan
 Anca Dragan
 Andi Peng
-Andrea Vedaldi
 Andreas Krause
 Andreas Stuhlmüller
+Andrea Vedaldi
 Andrew Critch
 Anna Sztyber-Betley
 Anqi (Angie) Liu
 Anqi Liu
 Anthony DiGiovanni
-Ari Holtzman
 Ariel Procaccia
+Ari Holtzman
 Arnob Ghosh
 Bart Selman
-Ben Levinstein
-Ben Smith
 Benedikt Höltgen
 Benjamin Rubinstein
+Ben Levinstein
+Ben Smith
 Boaz Barak
 Bogdan-Ionut Cirstea
 Brad Knox
 Brian Ziebart
-C Henrik Rolf Åslund
 Carlo Attubato
 Caspar Oesterheld
 Cassidy Laidlaw
@@ -49,10 +46,11 @@ Chad DeChant
 Chao Zhang
 Chelsea Finn
 Chenhao Tan
+C Henrik Rolf Åslund
 Chris Cundy
 Chris J. Maddison
-Chris van Merwijk
 Christopher Summerfield
+Chris van Merwijk
 Clare Lyle
 Clark Barrett
 Claudia Shi
@@ -61,12 +59,12 @@ Collin Burns
 Cynthia Xin Chen
 Dahua Lin
 Dan Hendrycks
-Dan Klein
 Daniel Filan
 Daniel Jarrett
 Daniel Kang
 Daniel Kunin
 Daniel S. Brown
+Dan Klein
 Danny Hernandez
 Dario Amodei
 David Bau
@@ -83,10 +81,10 @@ Dmitrii Krasheninnikov
 Dorsa Sadigh
 Dylan Hadfield-Menell
 Dylan Losey
-El Mahdi El Mhamdi
 Elad Hazan
 Eleonora Giunchiglia
 Ellie Pavlick
+El Mahdi El Mhamdi
 Enhong Chen
 Erdem Biyik
 Eric Langlois
@@ -102,8 +100,8 @@ Fei Huang
 Florian Dorner
 Florian Shkurti
 Florian Tramer
-Francis Rhys Ward
 Francisco Santos
+Francis Rhys Ward
 Freda Shi
 Gavin Leech
 Gemma Moran
@@ -111,13 +109,13 @@ Geoffrey Irving
 Gillian Hadfield
 Greg Durrett
 Hadassah Harland
-Han Qiu
 Hananel Hazan
 Hang Su
+Han Qiu
 He He
 Hjalmar Wijk
-Hong Zhu
 Hongyang Zhang
+Hong Zhu
 Ian Goodfellow
 Ilija Bogunovic
 Irina Rish
@@ -169,8 +167,8 @@ Koen Holtman
 Kush Bhatia
 Laurent Orseau
 Lawrence Chan
-Le Nguyên Hoang
 Lee Sharkey
+Le Nguyên Hoang
 Leqi Liu
 Lewis Hammond
 Lionel Levine
@@ -180,7 +178,6 @@ Luciano Cavalcante Siebert
 Luciano Siebert
 Luís Moniz Pereira
 Lukas Struppek
-Maayan Shvo
 Maksym Andriushchenko
 Mantas Mazeika
 Marcus Hutter
@@ -191,9 +188,9 @@ Martin Wattenberg
 Mary Phuong
 Matthias Samwald
 Max Chiswick
+Maxinder Kanwal
 Max Kleiman-Weiner
 Max Tegmark
-Maxinder Kanwal
 Meena Jagadeesan
 Meir Friedenberg
 Meng Sun
@@ -209,12 +206,14 @@ Mohit Iyyer
 Montaser Mohammedalamen
 Mrinank Sharma
 Murray Shanahan
+Maayan Shvo
 Nandi Schoots
 Nate Thomas
 Neale Ratzlaff
 Neel Alex
 Neel Nanda
 Neil Crawford
+né Kenton
 Nell Watson
 Nick Cohen
 Niki Howe
@@ -237,13 +236,13 @@ Philip Isola
 Philip S. Thomas
 Philip Torr
 Pieter Abbeel
-Qi Zhang
 Qian Huang
+Qi Zhang
 Quintin Pope
 Rachel Freedman
 Rachid Guerraoui
-Ram Rachum
 Ramana Kumar
+Ram Rachum
 Richard Dazeley
 Richard Mallah
 Richard Willis
@@ -261,15 +260,15 @@ Sainyam Galhotra
 Sam Bowman
 Sam Marks
 Sam McCandlish
-Sam Toyer
 Sammy Martin
+Sam Toyer
 Samuel Albanie
 Sanjeev Arora
 Satinder Singh Baveja
-Scott Aaronson
 Scott Emmons
 Scott Niekum
 Scott Viteri
+Scott Aaronson
 Sebastian Farquhar
 Sergey Levine
 Shai Shalev-Shwartz
@@ -282,7 +281,6 @@ Shuguang Cui
 Sicong Huang
 Silviu Pitis
 Song-Chun Zhu
-Sören Mindermann
 Spencer Frazier
 Stanislav Fort
 Stephen Casper
@@ -292,6 +290,7 @@ Stuart Armstrong
 Stuart Russell
 Surya Ganguli
 Sydney Levine
+Sören Mindermann
 Tan Zhi-Xuan
 Tao Gui
 Tatsunori Hashimoto
@@ -299,18 +298,18 @@ Tegan Maharaj
 The Anh Han
 Thiago Viana
 Thomas L. Griffiths
-Tim G. J. Rudner
 Tim Genewein
+Tim G. J. Rudner
 Tobias Baumann
+Tomasz Korbak
 Tom Everitt
 Tom Henighan
 Tom Lenaerts
 Tom McGrath
-Tomasz Korbak
 Toryn Klassen
 Usman Anwar
-Victor Veitch
 Victoria Krakovna
+Victor Veitch
 Vikash Mansinghka
 Vincent Conitzer
 Vincent Fortuin
@@ -328,8 +327,9 @@ Yizhou Wang
 Yoav Artzi
 Yoshua Bengio
 Yu Qiao
-Zac Jebreel (né Kenton)
 Zac Jebreel
-né Kenton
+Zac Jebreel (né Kenton)
 Zhijing Jin
 Zico Kolter
+Aaron M. Roth
+Aaron Tucker
