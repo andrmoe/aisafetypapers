@@ -5,6 +5,7 @@ Adrian Weller
 Aidan Kierans
 Akbir Khan
 Alan Chan
+Alan Cooney
 Aleksander Madry
 Aleksandra Korolova
 Alessandro Abate
@@ -30,6 +31,8 @@ Anthony DiGiovanni
 Ariel Procaccia
 Ari Holtzman
 Arnob Ghosh
+Aryan Bhatt
+Asa Cooper Stickland
 Bart Selman
 Benedikt Höltgen
 Benjamin Rubinstein
@@ -58,6 +61,7 @@ Colin Raffel
 Collin Burns
 Cynthia Xin Chen
 Dahua Lin
+Dane Sherburn
 Dan Hendrycks
 Daniel Filan
 Daniel Jarrett
@@ -137,6 +141,7 @@ Jason Weston
 Jeff Clune
 Jelena Luketina
 Jesse Clifton
+Jesse Hoogland
 Jessica Rumbelow
 Jianyu Chen
 Jie Fu
@@ -145,12 +150,14 @@ Jinen Setpal
 Joar Skalse
 Joel Leibo
 Johannes Treutlein
+John Hughes
 John Schulman
 John Wentworth
 Jonathan Rodriguez Cefalu
 Jordan Schneider
 Jordi Grau-Moya
 José Hernández-Orallo
+Joseph Bloom
 Joseph Halpern
 Joshua Achiam
 Joshua Tenenbaum
@@ -172,6 +179,7 @@ Le Nguyên Hoang
 Leqi Liu
 Lewis Hammond
 Lionel Levine
+Lisa Thiergart
 Lorenz Kuhn
 Louis Martin
 Luciano Cavalcante Siebert
@@ -192,6 +200,7 @@ Maxinder Kanwal
 Max Kleiman-Weiner
 Max Tegmark
 Meena Jagadeesan
+Megan Kinniment
 Meir Friedenberg
 Meng Sun
 Micah Carroll
@@ -217,6 +226,7 @@ né Kenton
 Nell Watson
 Nick Cohen
 Niki Howe
+Nina Panickssery
 Ning Gu
 Nisan Stiennon
 Noah Goodman
@@ -295,8 +305,10 @@ Tan Zhi-Xuan
 Tao Gui
 Tatsunori Hashimoto
 Tegan Maharaj
+Teun van der Weij
 The Anh Han
 Thiago Viana
+Thomas Larsen
 Thomas L. Griffiths
 Tim Genewein
 Tim G. J. Rudner
@@ -315,6 +327,7 @@ Vincent Conitzer
 Vincent Fortuin
 Vojtěch Kovarik
 Wanli Ouyang
+Wes Gurnee
 William Saunders
 Xin Zhang
 Xiting Wang
