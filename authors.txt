@@ -6,13 +6,16 @@ Aidan Kierans
 Akbir Khan
 Alan Chan
 Alan Cooney
+Alejandro Ortega
 Aleksander Madry
 Aleksandra Korolova
 Alessandro Abate
 Alexander D'Amour
+Alexander Davies
 Alexander Gietelink Oldenziel
 Alexander Lyzhov
 Alexander Pan
+Alexandra Bates
 Alexandre Maurer
 Alex Tamkin
 Alex Turner
@@ -30,9 +33,12 @@ Anqi Liu
 Anthony DiGiovanni
 Ariel Procaccia
 Ari Holtzman
+Aris Richardson
 Arnob Ghosh
+Arvo Muñoz Morán
 Aryan Bhatt
 Asa Cooper Stickland
+Barath Harithas
 Bart Selman
 Benedikt Höltgen
 Benjamin Rubinstein
@@ -43,8 +49,10 @@ Bogdan-Ionut Cirstea
 Brad Knox
 Brian Ziebart
 Carlo Attubato
+Carson Ezell
 Caspar Oesterheld
 Cassidy Laidlaw
+Catherine Brewer
 Chad DeChant
 Chao Zhang
 Chelsea Finn
@@ -52,13 +60,16 @@ Chenhao Tan
 C Henrik Rolf Åslund
 Chris Cundy
 Chris J. Maddison
+Christina Krawec
 Christopher Summerfield
 Chris van Merwijk
+Claire Dennis
 Clare Lyle
 Clark Barrett
 Claudia Shi
 Colin Raffel
 Collin Burns
+Conor Downey
 Cynthia Xin Chen
 Dahua Lin
 Dane Sherburn
@@ -83,8 +94,11 @@ Deyi Xiong
 Dimitris Papailiopoulos
 Dmitrii Krasheninnikov
 Dorsa Sadigh
+Duncan McClements
 Dylan Hadfield-Menell
 Dylan Losey
+Edward Kembery
+Einar Urdshals
 Elad Hazan
 Eleonora Giunchiglia
 Ellie Pavlick
@@ -107,16 +121,19 @@ Florian Tramer
 Francisco Santos
 Francis Rhys Ward
 Freda Shi
+Gabriel Mukobi
 Gavin Leech
 Gemma Moran
 Geoffrey Irving
 Gillian Hadfield
 Greg Durrett
 Hadassah Harland
+Hamza Chaudhry
 Hananel Hazan
 Hang Su
 Han Qiu
 He He
+Helena Cozzarini
 Hjalmar Wijk
 Hongyang Zhang
 Hong Zhu
@@ -126,12 +143,16 @@ Irina Rish
 Irwin King
 Isaac Dunn
 Ivan Vendrov
+Iyngkarran Kumar
+Jack Miller
 Jacob Hilton
 Jacob Steinhardt
 Jacques Thibodeau
 Jaime Fernández Fisac
+Jai Patel
 Jakob Foerster
 James Fox
+James Zhang
 Jan Betley
 Jan Brauner
 Jan Leike
@@ -142,6 +163,7 @@ Jeff Clune
 Jelena Luketina
 Jesse Clifton
 Jesse Hoogland
+Jesse Richardson
 Jessica Rumbelow
 Jianyu Chen
 Jie Fu
@@ -172,6 +194,7 @@ Kendrea Beers
 Kimin Lee
 Koen Holtman
 Kush Bhatia
+Kyle O’Brien
 Laurent Orseau
 Lawrence Chan
 Lee Sharkey
@@ -213,6 +236,7 @@ Miles Turpin
 Minlie Huang
 Mohit Iyyer
 Montaser Mohammedalamen
+Moritz von Knebel
 Mrinank Sharma
 Murray Shanahan
 Maayan Shvo
@@ -233,19 +257,23 @@ Noah Goodman
 Oliver De Candido
 Olle Häggström
 Ondrej Bajgar
+Oscar Delaney
 Owain Evans
 Patrick Shafto
 Paul Christiano
+Pauline Kuss
 Paul Knott
 Paul Matthew Salmon
 Pavel Osinenko
 Pedro Ortega
+Peter Barnett
 Peter Hase
 Peter Vamplew
 Philip Isola
 Philip S. Thomas
 Philip Torr
 Pieter Abbeel
+Pranav Gade
 Qian Huang
 Qi Zhang
 Quintin Pope
@@ -255,6 +283,7 @@ Ramana Kumar
 Ram Rachum
 Richard Dazeley
 Richard Mallah
+Richard Ren
 Richard Willis
 Richard Zemel
 Rif A. Saurous
@@ -262,6 +291,7 @@ Robert Kirk
 Roger Grosse
 Rohin Shah
 Roman Yampolskiy
+Rosco Hunter
 Rui Yan
 Ruth Fong
 Ryan Carey
@@ -318,6 +348,7 @@ Tom Everitt
 Tom Henighan
 Tom Lenaerts
 Tom McGrath
+Tom Reed
 Toryn Klassen
 Usman Anwar
 Victoria Krakovna
