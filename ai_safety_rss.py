@@ -5,9 +5,7 @@ from latest_papers import fetch_papers
 from pathlib import Path
 
 
-def load_authors(directory: Optional[Path] = None) -> Generator[str, None, None]:
-    if directory is None:
-        directory = Path.home() / "aisafetypapers"
+def load_authors(directory: Optional[Path] = Path.home() / "aisafetypapers") -> Generator[str, None, None]:
     with open(directory / "authors.txt", "r", encoding="utf-8") as f:
         for line in f.readlines():
             yield line[:-1]
