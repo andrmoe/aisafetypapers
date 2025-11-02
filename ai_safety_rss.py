@@ -35,7 +35,7 @@ def create_html(min_alignment_author_position: int = 2) -> str | None:
         author_list_str = ", ".join(author_list)
         for a in alignment_authors:
             author_list_str = author_list_str.replace(a, f'<b>{a}</b>')
-        email_str += f'<h2><a href={paper[2]}>{paper[0]}</a></h2>\n'
+        email_str += f'<h6>{paper[1]}</h6><h2><a href={paper[2]}>{paper[0]}</a></h2>\n'
         email_str += author_list_str+'<br/>\n'
         email_str += f'<p>Abstract: {paper[3]}</p>\n\n'
 
