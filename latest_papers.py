@@ -4,7 +4,7 @@ from typing import Generator
 import time
 from datetime import datetime, timedelta, UTC
 
-def fetch_papers(max_results: int=10000, time_cutoff: timedelta=timedelta(hours=48), categories: tuple[str, ...] = ("cs.AI", "cs.LG", "stat.ML")) \
+def fetch_papers(max_results: int=10000, time_cutoff: timedelta=timedelta(hours=48), categories: tuple[str, ...] = ("cs.AI", "cs.LG")) \
                     -> Generator[tuple[str, str, str, str, list[str]], None, None]:
     page_size = 100
     query = quote_plus(" OR ".join([f"cat:{cat}" for cat in categories]))
