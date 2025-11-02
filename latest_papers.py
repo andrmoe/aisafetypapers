@@ -21,12 +21,12 @@ def fetch_papers(max_results: int=10000, time_cutoff: timedelta=timedelta(hours=
             pub_time = datetime.strptime(entry.published, "%Y-%m-%dT%H:%M:%SZ").replace(
                 tzinfo=UTC
             )
-            if pub_time > cutoff:
-                yield entry.title.strip().replace("\n", " "), entry.published, \
-                    entry.link, entry.summary, [str(author.name) for author in entry.authors]
-            else:
+            if pub_time < cutoff:
                 # All remaining entries are older
-                return
+                return 
+            yield entry.title.strip().replace("\n", " "), entry.published, \
+                entry.link, entry.summary, [str(author.name) for author in entry.authors]
+
         time.sleep(0.5)
     raise EnvironmentError(f"All {max_results} most recent papers are newer than the cutoff = {time_cutoff}. "
                            f"The program might be stuck in an infinite loop.")
