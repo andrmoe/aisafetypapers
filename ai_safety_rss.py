@@ -1,11 +1,11 @@
-from typing import Generator, Optional
+from typing import Generator
 #import reader
 import os
 from latest_papers import fetch_papers
 from pathlib import Path
 
 
-def load_authors(directory: Optional[Path] = Path.home() / "aisafetypapers") -> Generator[str, None, None]:
+def load_authors(directory: Path = Path.home() / "aisafetypapers") -> Generator[str, None, None]:
     with open(directory / "authors.txt", "r", encoding="utf-8") as f:
         for line in f.readlines():
             yield line[:-1]

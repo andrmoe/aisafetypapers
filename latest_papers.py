@@ -1,4 +1,4 @@
-import feedparser
+import feedparser  # type: ignore
 from urllib.parse import quote_plus
 from typing import Generator
 import time
