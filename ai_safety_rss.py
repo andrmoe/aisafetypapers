@@ -1,6 +1,4 @@
 from typing import Generator
-#import reader
-import os
 from latest_papers import fetch_papers
 from pathlib import Path
 
@@ -11,10 +9,6 @@ def load_authors(directory: Path = Path.home() / "aisafetypapers") -> Generator[
             yield line[:-1]
 
 def create_html(min_alignment_author_position: int = 2) -> str | None:
-    #r = reader.make_reader('db.sqlite')
-    #r.add_feed("https://rss.arxiv.org/rss/cs.ai")
-    #r.update_feeds()
-    #entries = r.get_entries(read=False)
     alignment_authors = list(load_authors())
     alignment_papers = []
     for title, date, link, summary, authors in fetch_papers():
@@ -40,9 +34,6 @@ def create_html(min_alignment_author_position: int = 2) -> str | None:
         email_str += f'<p>Abstract: {paper[3]}</p>\n\n'
 
     email_str += "</body></html>"
-
-    #with open("email.html", "w") as f:
-    #    f.write(email_str)
 
     return email_str
 

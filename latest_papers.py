@@ -24,7 +24,6 @@ def fetch_papers(max_results: int=10000, time_cutoff: timedelta=timedelta(hours=
             if pub_time < cutoff:
                 # All remaining entries are older
                 return 
-            print(pub_time, entry.title.strip().replace("\n", " "))
             yield entry.title.strip().replace("\n", " "), entry.published, \
                 entry.link, entry.summary, [str(author.name) for author in entry.authors]
 
