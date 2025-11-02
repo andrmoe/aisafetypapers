@@ -201,6 +201,7 @@ Lee Sharkey
 Le Nguyên Hoang
 Leqi Liu
 Lewis Hammond
+Lili Janzer
 Lionel Levine
 Lisa Thiergart
 Lorenz Kuhn
@@ -287,10 +288,12 @@ Richard Ren
 Richard Willis
 Richard Zemel
 Rif A. Saurous
+Rishub Jain
 Robert Kirk
 Roger Grosse
 Rohin Shah
 Roman Yampolskiy
+Rory Greig
 Rosco Hunter
 Rui Yan
 Ruth Fong
@@ -321,6 +324,7 @@ Shuguang Cui
 Sicong Huang
 Silviu Pitis
 Song-Chun Zhu
+Sophie Bridgers
 Spencer Frazier
 Stanislav Fort
 Stephen Casper
@@ -340,6 +344,7 @@ The Anh Han
 Thiago Viana
 Thomas Larsen
 Thomas L. Griffiths
+Tian Huey Teh
 Tim Genewein
 Tim G. J. Rudner
 Tobias Baumann
@@ -356,6 +361,7 @@ Victor Veitch
 Vikash Mansinghka
 Vincent Conitzer
 Vincent Fortuin
+Vladimir Mikulik
 Vojtěch Kovarik
 Wanli Ouyang
 Wes Gurnee
@@ -377,9 +383,3 @@ Zhijing Jin
 Zico Kolter
 Aaron M. Roth
 Aaron Tucker
-Rishub Jain
-Sophie Bridgers
-Lili Janzer
-Rory Greig
-Tian Huey Teh
-Vladimir Mikulik
