@@ -1,12 +1,14 @@
-from typing import Generator
+from typing import Generator, Optional
 #import reader
 import os
 from latest_papers import fetch_papers
+from pathlib import Path
 
-dir = os.path.dirname(__file__)
 
-def load_authors() -> Generator[str, None, None]:
-    with open(f"{dir}/authors.txt", "r", encoding="utf-8") as f:
+def load_authors(directory: Optional[Path] = None) -> Generator[str, None, None]:
+    if directory is None:
+        directory = Path.home() / "aisafetypapers"
+    with open(directory / "authors.txt", "r", encoding="utf-8") as f:
         for line in f.readlines():
             yield line[:-1]
 
