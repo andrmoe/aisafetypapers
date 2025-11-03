@@ -1,13 +1,36 @@
+from email.mime.text import MIMEText
+import json
+from datetime import datetime, UTC
+import traceback
+from pathlib import Path
+
 from ai_safety_rss import create_html
+from ai_safety_email import send_email
+
 
 def main() -> int:
     try:
-        content = create_html()
-        #send_email(MIMEText(content, "html"))
+        print()
+        print(f"Time: {datetime.now(tz=UTC)}")
+        
+        dir = Path(__file__).parent
+        with open(dir / ".env", "r") as f:
+            conf = json.loads(f.read())
+        receiver_emails = conf["receiver_emails"]
+        maintainer_email = conf["maintainer_email"]
+
+        email_content = create_html()
+        if not email_content:
+            return 0
+        for receiver_email in receiver_emails:
+            send_email(receiver_email, 
+                        subject="New Papers from AI Safety Researchers", 
+                        content=MIMEText(email_content, 'html'))
     except BaseException as e:
         if not isinstance(e, KeyboardInterrupt):
-            pass
-            #send_email(MIMEText(traceback.format_exc(), "plain"))
+            send_email(maintainer_email, 
+                       subject="Error in 'ai_safety_papers'", 
+                       content=MIMEText(traceback.format_exc(), "plain"))
         raise
     return 0
 
