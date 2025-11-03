@@ -7,9 +7,29 @@ import json
 from datetime import datetime, UTC
 import traceback
 
+
+def send_email(sender_email: str,
+               sender_password: str,
+               receiver_email: str,
+               subject: str,
+               content: MIMEText) -> None:
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+
+    msg['Subject'] = subject
+    msg.attach(content)
+
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, receiver_email, msg.as_string())
+        print(f"Email sent successfully to {receiver_email}.")
+
+
 dir = os.path.dirname(__file__)
 
-def send_email() -> None:
+def send_ai_safety_email() -> None:
     # Email configuration
     conf = None
     with open(f"{dir}/.env", "r") as f:
@@ -19,7 +39,6 @@ def send_email() -> None:
     maintainer_email = conf["maintainer_email"]
     password = conf["password"]
 
-    # Create the email
     try:
         print()
         print(f"Time: {datetime.now(tz=UTC)}")
@@ -29,32 +48,12 @@ def send_email() -> None:
             email_content = create_html()
             if email_content is None:
                 return
-            msg = MIMEMultipart()
-            msg['From'] = sender_email
-            msg['To'] = receiver_email
-
-            msg['Subject'] = subject
-            msg.attach(MIMEText(email_content, 'html'))
-
-            with smtplib.SMTP("smtp.gmail.com", 587) as server:
-                server.starttls()
-                server.login(sender_email, password)
-                server.sendmail(sender_email, receiver_email, msg.as_string())
-                print(f"Email sent successfully to {receiver_email}.")
+            send_email(sender_email, password, receiver_email, subject, 
+                       MIMEText(email_content, 'html'))
     except BaseException as e:
-        msg = MIMEMultipart()
-        msg['From'] = sender_email
-        msg['To'] = maintainer_email
-        msg['Subject'] = "Error in 'ai_safety_papers'"
-        msg.attach(MIMEText(traceback.format_exc(), "plain"))
-
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
-            server.starttls()
-            server.login(sender_email, password)
-            server.sendmail(sender_email, maintainer_email, msg.as_string())
-            print(f"Email with exception stack trace sent successfully to {maintainer_email}.")
-            raise
-
+        send_email(sender_email, password, maintainer_email, 
+                   subject="Error in 'ai_safety_papers'", 
+                   content=MIMEText(traceback.format_exc(), "plain"))
 
 if __name__ == "__main__":
-    send_email()
+    send_ai_safety_email()

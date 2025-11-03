@@ -1,9 +1,8 @@
-
+from ai_safety_rss import create_html
 
 def main() -> int:
     try:
-        url = ""
-        #content = create_html(url)
+        content = create_html()
         #send_email(MIMEText(content, "html"))
     except BaseException as e:
         if not isinstance(e, KeyboardInterrupt):
