@@ -14,3 +14,11 @@ def test_load_authors(tmpdir: Path) -> None:
     assert loaded_authors[3] == "Adrian Weller"
     assert loaded_authors[4] == "Aidan Kierans"
     assert loaded_authors[5] == "Akbir Khan"
+
+class EmailTester:
+    def __init__(self) -> None:
+        pass
+
+pytest.fixture
+def email_tester() -> EmailTester:
+    return EmailTester()

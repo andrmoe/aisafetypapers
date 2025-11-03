@@ -10,10 +10,10 @@ def send_email(receiver_email: str,
                content: MIMEText,
                sender_email: str | None=None,
                sender_password: str | None=None,
-               host: str="smtp.gmail.com") -> None:
+               host: str="smtp.gmail.com",
+               config_path: Path=Path(__file__).parent / ".env") -> None:
     conf = None
-    dir = Path(__file__).parent
-    with open(dir / ".env", "r") as f:
+    with open(config_path, "r") as f:
         conf = json.loads(f.read())
     default_sender_email = conf["sender_email"]
     default_password = conf["password"]
