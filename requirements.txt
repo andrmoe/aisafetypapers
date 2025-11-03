@@ -4,3 +4,4 @@ feedparser
 pytest
 pytest-coverage
 mypy
+aiosmtpd

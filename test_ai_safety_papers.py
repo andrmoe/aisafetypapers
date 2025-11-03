@@ -1,5 +1,9 @@
 import pytest
 from pathlib import Path
+from aiosmtpd.controller import Controller
+from aiosmtpd.handlers import Mailbox
+from typing import Generator
+
 from ai_safety_rss import load_authors
 
 def test_load_authors(tmpdir: Path) -> None:
@@ -16,9 +20,12 @@ def test_load_authors(tmpdir: Path) -> None:
     assert loaded_authors[5] == "Akbir Khan"
 
 class EmailTester:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, mailbox_dir: Path) -> None:
+        self.controller = Controller(Mailbox(mailbox_dir))
+        self.controller.start()
 
 pytest.fixture
-def email_tester() -> EmailTester:
-    return EmailTester()
+def email_tester(tmp_path: Path) -> Generator[EmailTester, None, None]:
+    email_tester_inst = EmailTester(tmp_path)
+    yield email_tester_inst
+    email_tester_inst.controller.stop()
