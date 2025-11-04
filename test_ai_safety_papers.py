@@ -2,9 +2,14 @@ import pytest
 from pathlib import Path
 from aiosmtpd.controller import Controller
 from aiosmtpd.handlers import Mailbox
+from email.mime.text import MIMEText
 from typing import Generator
+import json
+from mailbox import Maildir, MaildirMessage
+from operator import itemgetter
 
 from ai_safety_rss import load_authors
+from ai_safety_email import send_email
 
 def test_load_authors(tmpdir: Path) -> None:
     file_path = tmpdir / "authors.txt"
@@ -21,11 +26,52 @@ def test_load_authors(tmpdir: Path) -> None:
 
 class EmailTester:
     def __init__(self, mailbox_dir: Path) -> None:
-        self.controller = Controller(Mailbox(mailbox_dir))
-        self.controller.start()
+        self.hostname = "127.0.0.1"
+        self.port = 1025
+        self.mailbox_dir = mailbox_dir
+        for sub in ["cur", "new", "tmp"]:
+            (mailbox_dir / sub).mkdir(parents=True, exist_ok=True)
+        self.controller = Controller(Mailbox(mailbox_dir), hostname=self.hostname, port=self.port)
+    
+    def received_messages(self) -> list[MaildirMessage]:
+        mailbox = Maildir(self.mailbox_dir)
+        return sorted(mailbox, key=itemgetter('message-id'))
 
-pytest.fixture
-def email_tester(tmp_path: Path) -> Generator[EmailTester, None, None]:
+@pytest.fixture()
+def email_tester(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Generator[EmailTester, None, None]:
+    monkeypatch.setattr("smtplib.SMTP.starttls", lambda self: None)
+    monkeypatch.setattr("smtplib.SMTP.login", lambda self, email, password: None)
     email_tester_inst = EmailTester(tmp_path)
-    yield email_tester_inst
-    email_tester_inst.controller.stop()
+    email_tester_inst.controller.start()
+    try:
+        yield email_tester_inst
+    finally:
+        email_tester_inst.controller.stop()
+
+@pytest.mark.parametrize("content_type", ["plain", "html"])
+def test_send_email(email_tester: EmailTester, tmp_path: Path, content_type: str) -> None:
+    sender = f"user0@{email_tester.hostname}"
+    receiver = f"user2@{email_tester.hostname}"
+    conf = {
+        "sender_email": sender,
+        "receiver_emails": [],
+        "maintainer_email": "",
+        "password": ""
+    }
+    (tmp_path / ".env").write_text(json.dumps(conf))
+    subject = "Test Subject"
+    content = "Test Content"
+    send_email(receiver_email=receiver,
+               subject=subject,
+               content=MIMEText(content, content_type),
+               host=email_tester.hostname,
+               port=email_tester.port,
+               config_path=tmp_path / ".env")
+    messages = email_tester.received_messages()
+    assert len(messages) == 1
+    for message in messages:
+        assert message['X-MailFrom'] == message['From'] == sender
+        assert message['X-RcptTo'] == message['To'] == receiver
+        assert message['Subject'] == subject
+        assert content_type in str(message)
+        assert content in str(message)
