@@ -48,29 +48,37 @@ def email_tester(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Generator[E
     finally:
         email_tester_inst.controller.stop()
 
-@pytest.mark.parametrize("content_type", ["plain", "html"])
-def test_send_email(email_tester: EmailTester, tmp_path: Path, content_type: str) -> None:
-    sender = f"user0@{email_tester.hostname}"
-    receiver = f"user2@{email_tester.hostname}"
+
+@pytest.fixture()
+def config_file(tmp_path: Path) -> Path:
+    host = "127.0.0.1"
     conf = {
-        "sender_email": sender,
-        "receiver_emails": [],
-        "maintainer_email": "",
-        "password": "",
-        "host": "127.0.0.1",
+        "sender_email": f"sender@{host}",
+        "receiver_emails": [f"receiver{i}@{host}" for i in range(2)],
+        "maintainer_email": f"maintainer@{host}",
+        "password": "badpassword",
+        "host": host,
         "port": 1025,
     }
-    (tmp_path / ".env").write_text(json.dumps(conf))
+    config_path = tmp_path / ".env"
+    config_path.write_text(json.dumps(conf))
+    return config_path
+
+
+@pytest.mark.parametrize("content_type", ["plain", "html"])
+def test_send_email(email_tester: EmailTester, config_file: Path, content_type: str) -> None:
+    config = json.loads(config_file.read_text(encoding="utf-8"))
     subject = "Test Subject"
+    receiver = f"receiver@{config["host"]}"
     content = "Test Content"
     send_email(receiver_email=receiver,
                subject=subject,
                content=MIMEText(content, content_type),
-               config_path=tmp_path / ".env")
+               config_path=config_file)
     messages = email_tester.received_messages()
     assert len(messages) == 1
     for message in messages:
-        assert message['X-MailFrom'] == message['From'] == sender
+        assert message['X-MailFrom'] == message['From'] == config["sender_email"]
         assert message['X-RcptTo'] == message['To'] == receiver
         assert message['Subject'] == subject
         assert content_type in str(message)
