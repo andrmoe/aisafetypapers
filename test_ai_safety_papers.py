@@ -56,7 +56,9 @@ def test_send_email(email_tester: EmailTester, tmp_path: Path, content_type: str
         "sender_email": sender,
         "receiver_emails": [],
         "maintainer_email": "",
-        "password": ""
+        "password": "",
+        "host": "127.0.0.1",
+        "port": 1025,
     }
     (tmp_path / ".env").write_text(json.dumps(conf))
     subject = "Test Subject"
@@ -64,8 +66,6 @@ def test_send_email(email_tester: EmailTester, tmp_path: Path, content_type: str
     send_email(receiver_email=receiver,
                subject=subject,
                content=MIMEText(content, content_type),
-               host=email_tester.hostname,
-               port=email_tester.port,
                config_path=tmp_path / ".env")
     messages = email_tester.received_messages()
     assert len(messages) == 1

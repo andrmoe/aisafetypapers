@@ -8,14 +8,14 @@ from pathlib import Path
 def send_email(receiver_email: str,
                subject: str,
                content: MIMEText,
-               host: str="smtp.gmail.com",
-               port: int=587,
                config_path: Path=Path(__file__).parent / ".env") -> None:
     conf = None
     with open(config_path, "r") as f:
         conf = json.loads(f.read())
     sender_email = conf["sender_email"]
     password = conf["password"]
+    host = conf["host"]
+    port = conf["port"]
     
     msg = MIMEMultipart()
 
