@@ -9,7 +9,7 @@ def fetch_papers(max_results: int=10000, time_cutoff: timedelta=timedelta(hours=
     page_size = 10
     query = quote_plus(" OR ".join([f"cat:{cat}" for cat in categories]))
     cutoff = datetime.now(UTC) - time_cutoff
-
+    paper_count = 0
     for index in range(0, max_results, page_size):
         rss_url = (
             f"https://export.arxiv.org/api/query?"
@@ -18,11 +18,13 @@ def fetch_papers(max_results: int=10000, time_cutoff: timedelta=timedelta(hours=
 
         feed = feedparser.parse(rss_url)
         for entry in feed.entries:
+            paper_count += 1
             pub_time = datetime.strptime(entry.published, "%Y-%m-%dT%H:%M:%SZ").replace(
                 tzinfo=UTC
             )
             if pub_time < cutoff:
                 # All remaining entries are older
+                print(f"Found {paper_count} papers.")
                 return 
             yield entry.title.strip().replace("\n", " "), entry.published, \
                 entry.link, entry.summary, [str(author.name) for author in entry.authors]
