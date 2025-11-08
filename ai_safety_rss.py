@@ -8,19 +8,22 @@ def load_authors(directory: Path = Path.home() / "aisafetypapers") -> Generator[
         for line in f.readlines():
             yield line[:-1]
 
-def create_html(min_alignment_author_position: int = 2) -> str | None:
+def create_html(min_alignment_author_position: int = 4) -> str | None:
     alignment_authors = list(load_authors())
     alignment_papers = []
+    alignment_positions = []
     for title, date, link, summary, authors in fetch_papers():
         if any((name in alignment_authors) for name in authors):
             alignment_author = [name for name in authors if name in alignment_authors][0]
             alignment_author_pos = authors.index(alignment_author)
-            if alignment_author_pos < min_alignment_author_position:
+            alignment_positions.append(alignment_author_pos)
+            if alignment_author_pos <= min_alignment_author_position:
                 alignment_papers.append((alignment_author_pos, (title, date, link, summary, authors)))
     alignment_papers.sort(key=lambda x: x[0])
 
     if len(alignment_papers) == 0:
         print("No new papers")
+        print(f"Smallest position: {min(alignment_positions)}")
         return None
 
     email_str = f"<html><body><h1>New Papers from AI Safety Researchers (based on this <a href=https://airtable.com/appWAkbSGU6x8Oevt/shraOj3kb8ESTOOmh/tblCiItlYmFQqOKat>list</a>)</h1>\n\n"
