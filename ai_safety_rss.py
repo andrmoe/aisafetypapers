@@ -23,7 +23,7 @@ def create_html(min_alignment_author_position: int = 4) -> str | None:
 
     if len(alignment_papers) == 0:
         print("No new papers")
-        print(f"Smallest position: {min(alignment_positions)}")
+        print(f"Smallest position: {'NaN' if not alignment_positions else min(alignment_positions)}")
         return None
 
     email_str = f"<html><body><h1>New Papers from AI Safety Researchers (based on this <a href=https://airtable.com/appWAkbSGU6x8Oevt/shraOj3kb8ESTOOmh/tblCiItlYmFQqOKat>list</a>)</h1>\n\n"
