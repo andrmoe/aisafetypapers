@@ -7,15 +7,21 @@ from typing import Generator
 import json
 from mailbox import Maildir, MaildirMessage
 from operator import itemgetter
+from datetime import datetime
 
-from ai_safety_rss import load_authors
+from ai_safety_rss import load_authors, filter_for_alignment
 from ai_safety_email import send_email
+from latest_papers import Paper
 
-def test_load_authors(tmpdir: Path) -> None:
+@pytest.fixture
+def fake_author_file(tmpdir: Path) -> Path:
     file_path = tmpdir / "authors.txt"
     authors = "Adam Gleave\nAdam Shimi\nAdrià Garriga-Alonso\nAdrian Weller\nAidan Kierans\nAkbir Khan\n"
     file_path.write_text(authors, encoding="utf-8")
-    loaded_authors = list(load_authors(tmpdir))
+    return file_path
+
+def test_load_authors(fake_author_file: Path) -> None:
+    loaded_authors = list(load_authors(fake_author_file))
     assert len(loaded_authors) == 6
     assert loaded_authors[0] == "Adam Gleave"
     assert loaded_authors[1] == "Adam Shimi"
@@ -83,3 +89,41 @@ def test_send_email(email_tester: EmailTester, config_file: Path, content_type: 
         assert message['Subject'] == subject
         assert content_type in str(message)
         assert content in str(message)
+
+@pytest.fixture
+def fake_papers() -> list[Paper]:
+    return [
+        Paper("Dumb experiment", datetime(2024, 2, 29, 12, 15, 50),
+                ["Andreas Polk", "Emily Tirol", "Warren Bender", "Adam Shimi"], 
+                "Dumb summary", "https://fakelink.int/dumbpaper"),
+        Paper("Smart experiment", datetime(2025, 2, 28, 17, 45, 52),
+            ["Gillian Trouble", "Armen Fury"], 
+            "Smart summary", "https://fakelink.int/smartpaper"),
+        Paper("On the existence of ghosts", datetime(2025, 2, 27, 12, 0, 0),
+            [], 
+            "Summary: I am a ghost", "https://fakelink.int/ghosts"),
+        Paper("Dumb Collaboration", datetime(2025, 2, 27, 12, 0, 0),
+            [f"Author {i}" for i in range(10000)], 
+            "Collaborative summary", "https://fakelink.int/collaboration"),
+        Paper("On-line anti-robustness checkable bootstrapping supervisory scaling, through sub-quadratic recursive re-reduction", 
+            datetime(2025, 2, 27, 12, 0, 0),
+            ["Aidan Kierans", "Rune Filkony"], 
+            "Summarisation through long fast-indexible glue search", 
+            "https://fakelink.int/coolpaper"),
+        ]
+
+def test_filter_for_alignment(fake_author_file: Path, fake_papers: list[Paper]) -> None:
+    alignment_papers = filter_for_alignment(fake_papers, 
+                                            min_alignment_author_position=2, 
+                                            author_file=fake_author_file)
+    assert alignment_papers == [Paper("On-line anti-robustness checkable bootstrapping supervisory scaling, through sub-quadratic recursive re-reduction", 
+            datetime(2025, 2, 27, 12, 0, 0),
+            ["Aidan Kierans", "Rune Filkony"], 
+            "Summarisation through long fast-indexible glue search", 
+            "https://fakelink.int/coolpaper")]
+    
+def test_filter_for_alignment_no_papers(fake_author_file: Path, fake_papers: list[Paper]) -> None:
+    alignment_papers = filter_for_alignment(fake_papers[:4], 
+                                            min_alignment_author_position=2, 
+                                            author_file=fake_author_file)
+    assert alignment_papers == []

@@ -3,14 +3,15 @@ from latest_papers import Paper
 from pathlib import Path
 
 
-def load_authors(directory: Path = Path.home() / "aisafetypapers") -> Generator[str, None, None]:
-    with open(directory / "authors.txt", "r", encoding="utf-8") as f:
+def load_authors(file: Path = Path.home()) -> Generator[str, None, None]:
+    with open(file, "r", encoding="utf-8") as f:
         for line in f.readlines():
             yield line[:-1]
 
 
-def filter_for_alignment(papers: Iterable[Paper], min_alignment_author_position: int = 4) -> list[Paper]:
-    alignment_authors = list(load_authors())
+def filter_for_alignment(papers: Iterable[Paper], min_alignment_author_position: int = 4,
+                         author_file: Path = Path.home() / "aisafetypapers" / "authors.txt") -> list[Paper]:
+    alignment_authors = list(load_authors(author_file))
     alignment_papers: list[tuple[int, Paper]] = []
     alignment_positions: list[int] = []
     for paper in papers:
@@ -27,10 +28,12 @@ def filter_for_alignment(papers: Iterable[Paper], min_alignment_author_position:
     return [paper for _, paper in alignment_papers]
 
 
-def create_html(papers: Iterable[Paper]) -> str | None:
+def create_html(papers: Iterable[Paper], 
+                author_file: Path = Path.home() / "aisafetypapers" / "authors.txt") \
+                    -> str | None:
     if not papers:
         return None
-    alignment_authors = list(load_authors())
+    alignment_authors = list(load_authors(author_file))
     email_str = f"<html><body><h1>New Papers from AI Safety Researchers (based on this <a href=https://airtable.com/appWAkbSGU6x8Oevt/shraOj3kb8ESTOOmh/tblCiItlYmFQqOKat>list</a>)</h1>\n\n"
     for paper in papers:
         author_list = paper.authors
