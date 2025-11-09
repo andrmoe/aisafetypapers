@@ -6,6 +6,7 @@ from pathlib import Path
 
 from ai_safety_rss import create_html
 from ai_safety_email import send_email
+from latest_papers import fetch_papers
 
 
 def main() -> int:
@@ -19,7 +20,7 @@ def main() -> int:
         receiver_emails = conf["receiver_emails"]
         maintainer_email = conf["maintainer_email"]
 
-        email_content = create_html()
+        email_content = create_html(list(fetch_papers()))
         if not email_content:
             return 0
         for receiver_email in receiver_emails:

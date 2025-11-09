@@ -1,5 +1,5 @@
-from typing import Generator
-from latest_papers import fetch_papers, Paper
+from typing import Generator, Iterable
+from latest_papers import Paper
 from pathlib import Path
 
 
@@ -8,11 +8,11 @@ def load_authors(directory: Path = Path.home() / "aisafetypapers") -> Generator[
         for line in f.readlines():
             yield line[:-1]
 
-def create_html(min_alignment_author_position: int = 4) -> str | None:
+def create_html(papers: Iterable[Paper], min_alignment_author_position: int = 4) -> str | None:
     alignment_authors = list(load_authors())
     alignment_papers: list[tuple[int, Paper]] = []
     alignment_positions: list[int] = []
-    for paper in fetch_papers():
+    for paper in papers:
         if any((name in alignment_authors) for name in paper.authors):
             alignment_author = [name for name in paper.authors if name in alignment_authors][0]
             alignment_author_pos = paper.authors.index(alignment_author)
