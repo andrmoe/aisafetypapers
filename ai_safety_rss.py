@@ -39,7 +39,3 @@ def create_html(papers: Iterable[Paper], min_alignment_author_position: int = 4)
     email_str += "</body></html>"
 
     return email_str
-
-
-if __name__ == '__main__':
-    print(create_html())
