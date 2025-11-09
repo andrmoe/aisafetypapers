@@ -8,7 +8,8 @@ def load_authors(directory: Path = Path.home() / "aisafetypapers") -> Generator[
         for line in f.readlines():
             yield line[:-1]
 
-def create_html(papers: Iterable[Paper], min_alignment_author_position: int = 4) -> str | None:
+
+def filter_for_alignment(papers: Iterable[Paper], min_alignment_author_position: int = 4) -> list[Paper]:
     alignment_authors = list(load_authors())
     alignment_papers: list[tuple[int, Paper]] = []
     alignment_positions: list[int] = []
@@ -20,14 +21,18 @@ def create_html(papers: Iterable[Paper], min_alignment_author_position: int = 4)
             if alignment_author_pos < min_alignment_author_position:
                 alignment_papers.append((alignment_author_pos, paper))
     alignment_papers.sort(key=lambda x: x[0])
-
     if len(alignment_papers) == 0:
         print("No new papers")
         print(f"Smallest position: {'NaN' if not alignment_positions else min(alignment_positions)}")
-        return None
+    return [paper for _, paper in alignment_papers]
 
+
+def create_html(papers: Iterable[Paper]) -> str | None:
+    if not papers:
+        return None
+    alignment_authors = list(load_authors())
     email_str = f"<html><body><h1>New Papers from AI Safety Researchers (based on this <a href=https://airtable.com/appWAkbSGU6x8Oevt/shraOj3kb8ESTOOmh/tblCiItlYmFQqOKat>list</a>)</h1>\n\n"
-    for _, paper in alignment_papers:
+    for paper in papers:
         author_list = paper.authors
         author_list_str = ", ".join(author_list)
         for a in alignment_authors:

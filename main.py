@@ -4,7 +4,7 @@ from datetime import datetime, UTC
 import traceback
 from pathlib import Path
 
-from ai_safety_rss import create_html
+from ai_safety_rss import create_html, filter_for_alignment
 from ai_safety_email import send_email
 from latest_papers import fetch_papers
 
@@ -19,8 +19,8 @@ def main() -> int:
             conf = json.loads(f.read())
         receiver_emails = conf["receiver_emails"]
         maintainer_email = conf["maintainer_email"]
-
-        email_content = create_html(list(fetch_papers()))
+        papers = list(filter_for_alignment(fetch_papers()))
+        email_content = create_html(papers)
         if not email_content:
             return 0
         for receiver_email in receiver_emails:
