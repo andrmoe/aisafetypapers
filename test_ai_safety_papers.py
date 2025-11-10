@@ -162,6 +162,11 @@ def test_fetch_papers(monkeypatch: pytest.MonkeyPatch) -> None:
                            authors=[],
                            summary="",
                            link=""),
+            FeedParserDict(published="2025-11-10T04:41:09Z",
+                           title="Test Title",
+                           authors=[],
+                           summary="",
+                           link=""),
             FeedParserDict(published="2025-10-10T23:41:09Z",
                            title="Test Title",
                            authors=[],
@@ -175,3 +180,17 @@ def test_fetch_papers(monkeypatch: pytest.MonkeyPatch) -> None:
         assert paper.link == ""
         assert paper.summary == ""
         # TODO: assert date
+
+@freeze_time("2025-11-10 15:00:00")
+def test_fetch_papers_infinite_loop(monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_parse(url: str) -> FeedParserDict:
+        return FeedParserDict(entries=[
+            FeedParserDict(published="2025-11-10T10:41:09Z",
+                           title="Test Title",
+                           authors=[],
+                           summary="",
+                           link="") for _ in range(30)
+                        ])
+    monkeypatch.setattr("latest_papers.feedparser.parse", test_parse)
+    with pytest.raises(EnvironmentError):
+        list(fetch_papers(max_results=15))
