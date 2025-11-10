@@ -144,10 +144,8 @@ def test_create_html(fake_papers: list[Paper], fake_author_file: Path) -> None:
     assert "<script>" not in html_page
     assert f"<b>Adam Shimi</b>" in html_page
     assert f"<b>Aidan Kierans</b>" in html_page
-    try:
-        lxml_html.fromstring(html_page)
-    except:
-        raise
+    lxml_html.fromstring(html_page)
+
 
 def test_create_html_no_papers(fake_author_file: Path) -> None:
     html_page = create_html([], fake_author_file)
