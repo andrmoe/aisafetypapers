@@ -157,11 +157,17 @@ def test_create_html_no_papers(fake_author_file: Path) -> None:
 def test_fetch_papers(monkeypatch: pytest.MonkeyPatch) -> None:
     def test_parse(url: str) -> FeedParserDict:
         return FeedParserDict(entries=[
+            FeedParserDict(published="2025-11-10T10:41:09Z",
+                           title="Test Title",
+                           authors=[],
+                           summary="",
+                           link=""),
             FeedParserDict(published="2025-10-10T23:41:09Z",
                            title="Test Title",
                            authors=[],
                            summary="",
-                           link="")])
+                           link="")
+                        ])
     monkeypatch.setattr("latest_papers.feedparser.parse", test_parse)
     for paper in fetch_papers():
         assert paper.title == "Test Title"
