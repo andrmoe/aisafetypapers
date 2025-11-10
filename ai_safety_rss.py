@@ -10,8 +10,9 @@ def load_authors(file: Path = Path.home()) -> Generator[str, None, None]:
             yield line[:-1]
 
 
-def filter_for_alignment(papers: Iterable[Paper], min_alignment_author_position: int = 4,
-                         author_file: Path = Path.home() / "aisafetypapers" / "authors.txt") -> list[Paper]:
+def filter_for_alignment(papers: Iterable[Paper], 
+                         author_file: Path, 
+                         min_alignment_author_position: int = 4) -> list[Paper]:
     alignment_authors = list(load_authors(author_file))
     alignment_papers: list[tuple[int, Paper]] = []
     alignment_positions: list[int] = []

@@ -9,32 +9,34 @@ from ai_safety_email import send_email
 from latest_papers import fetch_papers
 
 
-def main() -> int:
+def main(env_file: Path=Path(__file__).parent / ".env",
+         author_file: Path = Path.home() / "aisafetypapers" / "authors.txt") -> int:
     try:
         print()
         print(f"Time: {datetime.now(tz=UTC)}")
         
-        dir = Path(__file__).parent
-        with open(dir / ".env", "r") as f:
+        with open(env_file, "r") as f:
             conf = json.loads(f.read())
         receiver_emails = conf["receiver_emails"]
         maintainer_email = conf["maintainer_email"]
-        papers = list(filter_for_alignment(fetch_papers()))
-        email_content = create_html(papers)
+        papers = list(filter_for_alignment(fetch_papers(), author_file=author_file))
+        email_content = create_html(papers, author_file=author_file)
         if not email_content:
             return 0
         for receiver_email in receiver_emails:
             send_email(receiver_email, 
                         subject="New Papers from AI Safety Researchers", 
-                        content=MIMEText(email_content, 'html'))
+                        content=MIMEText(email_content, 'html'),
+                        config_path=env_file)
     except BaseException as e:
         if not isinstance(e, KeyboardInterrupt):
             send_email(maintainer_email, 
                        subject="Error in 'ai_safety_papers'", 
-                       content=MIMEText(traceback.format_exc(), "plain"))
+                       content=MIMEText(traceback.format_exc(), "plain"),
+                       config_path=env_file)
         raise
     return 0
 
 
 if __name__ == "__main__":
-    exit(main())
+    exit(main())  # pragma: no cover

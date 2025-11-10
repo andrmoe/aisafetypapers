@@ -16,6 +16,7 @@ from freezegun import freeze_time
 from ai_safety_rss import load_authors, filter_for_alignment, create_html
 from ai_safety_email import send_email
 from latest_papers import Paper, fetch_papers
+from main import main
 
 @pytest.fixture
 def fake_author_file(tmpdir: Path) -> Path:
@@ -194,3 +195,21 @@ def test_fetch_papers_infinite_loop(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr("latest_papers.feedparser.parse", test_parse)
     with pytest.raises(EnvironmentError):
         list(fetch_papers(max_results=15))
+
+@freeze_time("2025-11-10 15:00:00")
+def test_main_no_new_papers(config_file: Path, 
+              email_tester: EmailTester, 
+              monkeypatch: pytest.MonkeyPatch, 
+              fake_author_file: Path) -> None:
+    def test_parse(url: str) -> FeedParserDict:
+        return FeedParserDict(entries=[
+            FeedParserDict(published="2025-10-10T10:41:09Z",
+                           title="Test Title",
+                           authors=[],
+                           summary="",
+                           link="") for _ in range(30)
+                        ])
+    monkeypatch.setattr("latest_papers.feedparser.parse", test_parse)
+    main(config_file, fake_author_file)
+    emails = email_tester.received_messages()
+    assert emails == []
