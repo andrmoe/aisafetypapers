@@ -158,17 +158,17 @@ def test_create_html_no_papers(fake_author_file: Path) -> None:
 def test_fetch_papers(monkeypatch: pytest.MonkeyPatch) -> None:
     def test_parse(url: str) -> FeedParserDict:
         return FeedParserDict(entries=[
-            FeedParserDict(published="2025-11-10T10:41:09Z",
+            FeedParserDict(published="Mon, 10 Nov 2025 00:00:00 -0500",
                            title="Test Title",
                            authors=[],
                            summary="",
                            link=""),
-            FeedParserDict(published="2025-11-10T04:41:09Z",
+            FeedParserDict(published="Mon, 10 Nov 2025 00:00:00 -0500",
                            title="Test Title",
                            authors=[],
                            summary="",
                            link=""),
-            FeedParserDict(published="2025-10-10T23:41:09Z",
+            FeedParserDict(published="Mon, 10 Nov 2025 00:00:00 -0500",
                            title="Test Title",
                            authors=[],
                            summary="",
@@ -182,28 +182,13 @@ def test_fetch_papers(monkeypatch: pytest.MonkeyPatch) -> None:
         assert paper.summary == ""
         # TODO: assert date
 
-@freeze_time("2025-11-10 15:00:00")
-def test_fetch_papers_infinite_loop(monkeypatch: pytest.MonkeyPatch) -> None:
-    def test_parse(url: str) -> FeedParserDict:
-        return FeedParserDict(entries=[
-            FeedParserDict(published="2025-11-10T10:41:09Z",
-                           title="Test Title",
-                           authors=[],
-                           summary="",
-                           link="") for _ in range(30)
-                        ])
-    monkeypatch.setattr("latest_papers.feedparser.parse", test_parse)
-    with pytest.raises(EnvironmentError):
-        list(fetch_papers(max_results=15))
-
-@freeze_time("2025-11-10 15:00:00")
 def test_main_no_new_papers(config_file: Path, 
               email_tester: EmailTester, 
               monkeypatch: pytest.MonkeyPatch, 
               fake_author_file: Path) -> None:
     def test_parse(url: str) -> FeedParserDict:
         return FeedParserDict(entries=[
-            FeedParserDict(published="2025-10-10T10:41:09Z",
+            FeedParserDict(published="Mon, 10 Nov 2025 00:00:00 -0500",
                            title="Test Title",
                            authors=[],
                            summary="",

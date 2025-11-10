@@ -15,35 +15,21 @@ class Paper:
     link: str
 
 
-def fetch_papers(max_results: int=10000, time_cutoff: timedelta=timedelta(hours=48), categories: tuple[str, ...] = ("cs.AI", "cs.LG", "stat.ML")) \
+def fetch_papers() \
                     -> Generator[Paper, None, None]:
-    page_size = 10
-    query = quote_plus(" OR ".join([f"cat:{cat}" for cat in categories]))
-    cutoff = datetime.now(UTC) - time_cutoff
     paper_count = 0
-    for index in range(0, max_results, page_size):
-        rss_url = (
-            f"https://export.arxiv.org/api/query?"
-            f"search_query={query}&sortBy=submittedDate&sortOrder=descending&start={index}&max_results={page_size}"
-        )
+    rss_url = "https://rss.arxiv.org/rss/cs"
 
-        feed = feedparser.parse(rss_url)
-        for entry in feed.entries:
-            paper_count += 1
-            pub_time = datetime.strptime(entry.published, "%Y-%m-%dT%H:%M:%SZ").replace(
-                tzinfo=UTC
-            )
-            if pub_time < cutoff:
-                # All remaining entries are older
-                print(f"Found {paper_count} papers.")
-                return 
-            paper = Paper(title=entry.title.strip().replace("\n", " "),
-                          publication_time=pub_time,
-                          authors=[str(author.name) for author in entry.authors],
-                          summary=entry.summary,
-                          link=entry.link)
-            yield paper
-
-        time.sleep(1)
-    raise EnvironmentError(f"All {max_results} most recent papers are newer than the cutoff = {time_cutoff}. "
-                           f"The program might be stuck in an infinite loop.")
+    feed = feedparser.parse(rss_url)
+    for entry in feed.entries:
+        paper_count += 1
+        pub_time = datetime.strptime(entry.published, "%a, %d %b %Y %H:%M:%S %z")
+        print(pub_time.isoformat())
+        paper = Paper(title=entry.title.strip().replace("\n", " "),
+                        publication_time=pub_time,
+                        authors=[str(author.name) for author in entry.authors],
+                        summary=entry.summary,
+                        link=entry.link)
+        yield paper
+    print(f"Found {paper_count} papers.")
+    
