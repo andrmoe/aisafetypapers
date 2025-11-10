@@ -22,6 +22,9 @@ def filter_for_alignment(papers: Iterable[Paper], min_alignment_author_position:
             alignment_positions.append(alignment_author_pos)
             if alignment_author_pos < min_alignment_author_position:
                 alignment_papers.append((alignment_author_pos, paper))
+            print(paper.title)
+            print(paper.authors)
+            print(alignment_author)
     alignment_papers.sort(key=lambda x: x[0])
     if len(alignment_papers) == 0:
         print("No new papers")
