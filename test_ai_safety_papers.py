@@ -8,8 +8,10 @@ import json
 from mailbox import Maildir, MaildirMessage
 from operator import itemgetter
 from datetime import datetime
+from lxml import html as lxml_html
+import html
 
-from ai_safety_rss import load_authors, filter_for_alignment
+from ai_safety_rss import load_authors, filter_for_alignment, create_html
 from ai_safety_email import send_email
 from latest_papers import Paper
 
@@ -93,18 +95,18 @@ def test_send_email(email_tester: EmailTester, config_file: Path, content_type: 
 @pytest.fixture
 def fake_papers() -> list[Paper]:
     return [
-        Paper("Dumb experiment", datetime(2024, 2, 29, 12, 15, 50),
+        Paper("Dumb <script>experiment</script>", datetime(2024, 2, 29, 12, 15, 50),
                 ["Andreas Polk", "Emily Tirol", "Warren Bender", "Adam Shimi"], 
                 "Dumb summary", "https://fakelink.int/dumbpaper"),
         Paper("Smart experiment", datetime(2025, 2, 28, 17, 45, 52),
-            ["Gillian Trouble", "Armen Fury"], 
+            ["Gillian Trouble", "Armen <script>Fury</script>"], 
             "Smart summary", "https://fakelink.int/smartpaper"),
         Paper("On the existence of ghosts", datetime(2025, 2, 27, 12, 0, 0),
             [], 
-            "Summary: I am a ghost", "https://fakelink.int/ghosts"),
+            "Summary: <script>I</script> am a ghost", "https://fakelink.int/ghosts"),
         Paper("Dumb Collaboration", datetime(2025, 2, 27, 12, 0, 0),
             [f"Author {i}" for i in range(10000)], 
-            "Collaborative summary", "https://fakelink.int/collaboration"),
+            "Collaborative summary", "https://fakelink.int/<script>collaboration</script>"),
         Paper("On-line anti-robustness checkable bootstrapping supervisory scaling, through sub-quadratic recursive re-reduction", 
             datetime(2025, 2, 27, 12, 0, 0),
             ["Aidan Kierans", "Rune Filkony"], 
@@ -127,3 +129,26 @@ def test_filter_for_alignment_no_papers(fake_author_file: Path, fake_papers: lis
                                             min_alignment_author_position=2, 
                                             author_file=fake_author_file)
     assert alignment_papers == []
+
+def test_create_html(fake_papers: list[Paper], fake_author_file: Path) -> None:
+    html_page = create_html(fake_papers, fake_author_file)
+    assert html_page is not None
+    for paper in fake_papers:
+        assert html.escape(paper.title) in html_page
+        assert html.escape(paper.summary) in html_page
+        assert f'<a href="{html.escape(paper.link)}"' in html_page
+        for author in paper.authors:
+            assert html.escape(author) in html_page
+    
+    assert f"<b>Andreas Polk</b>" not in html_page
+    assert "<script>" not in html_page
+    assert f"<b>Adam Shimi</b>" in html_page
+    assert f"<b>Aidan Kierans</b>" in html_page
+    try:
+        lxml_html.fromstring(html_page)
+    except:
+        raise
+
+def test_create_html_no_papers(fake_author_file: Path) -> None:
+    html_page = create_html([], fake_author_file)
+    assert html_page is None

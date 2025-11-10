@@ -1,4 +1,5 @@
 from typing import Generator, Iterable
+import html
 from latest_papers import Paper
 from pathlib import Path
 
@@ -34,15 +35,15 @@ def create_html(papers: Iterable[Paper],
     if not papers:
         return None
     alignment_authors = list(load_authors(author_file))
-    email_str = f"<html><body><h1>New Papers from AI Safety Researchers (based on this <a href=https://airtable.com/appWAkbSGU6x8Oevt/shraOj3kb8ESTOOmh/tblCiItlYmFQqOKat>list</a>)</h1>\n\n"
+    email_str = f'<html><body><h1>New Papers from AI Safety Researchers (based on this <a href="https://airtable.com/appWAkbSGU6x8Oevt/shraOj3kb8ESTOOmh/tblCiItlYmFQqOKat">list</a>)</h1>\n\n'
     for paper in papers:
         author_list = paper.authors
-        author_list_str = ", ".join(author_list)
+        author_list_str = html.escape(", ".join(author_list))
         for a in alignment_authors:
             author_list_str = author_list_str.replace(a, f'<b>{a}</b>')
-        email_str += f'<h6>{paper.publication_time}</h6><h2><a href={paper.link}>{paper.title}</a></h2>\n'
+        email_str += f'<h6>{html.escape(str(paper.publication_time))}</h6><h2><a href="{html.escape(paper.link)}">{html.escape(paper.title)}</a></h2>\n'
         email_str += author_list_str+'<br/>\n'
-        email_str += f'<p>Abstract: {paper.summary}</p>\n\n'
+        email_str += f'<p>Abstract: {html.escape(paper.summary)}</p>\n\n'
 
     email_str += "</body></html>"
 
