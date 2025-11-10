@@ -10,10 +10,12 @@ from operator import itemgetter
 from datetime import datetime
 from lxml import html as lxml_html
 import html
+from feedparser import FeedParserDict  # type: ignore
+from freezegun import freeze_time
 
 from ai_safety_rss import load_authors, filter_for_alignment, create_html
 from ai_safety_email import send_email
-from latest_papers import Paper
+from latest_papers import Paper, fetch_papers
 
 @pytest.fixture
 def fake_author_file(tmpdir: Path) -> Path:
@@ -150,3 +152,20 @@ def test_create_html(fake_papers: list[Paper], fake_author_file: Path) -> None:
 def test_create_html_no_papers(fake_author_file: Path) -> None:
     html_page = create_html([], fake_author_file)
     assert html_page is None
+
+@freeze_time("2025-11-10 15:00:00")
+def test_fetch_papers(monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_parse(url: str) -> FeedParserDict:
+        return FeedParserDict(entries=[
+            FeedParserDict(published="2025-10-10T23:41:09Z",
+                           title="Test Title",
+                           authors=[],
+                           summary="",
+                           link="")])
+    monkeypatch.setattr("latest_papers.feedparser.parse", test_parse)
+    for paper in fetch_papers():
+        assert paper.title == "Test Title"
+        assert paper.authors == []
+        assert paper.link == ""
+        assert paper.summary == ""
+        # TODO: assert date

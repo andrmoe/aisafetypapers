@@ -7,3 +7,4 @@ mypy
 aiosmtpd
 lxml
 lxml-stubs
+freezegun
