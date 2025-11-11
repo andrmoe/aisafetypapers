@@ -15,8 +15,7 @@ class Paper:
     link: str
 
 
-def fetch_papers() \
-                    -> Generator[Paper, None, None]:
+def fetch_papers() -> Generator[Paper, None, None]:
     paper_count = 0
     rss_url = "https://rss.arxiv.org/rss/cs"
 
@@ -24,7 +23,6 @@ def fetch_papers() \
     for entry in feed.entries:
         paper_count += 1
         pub_time = datetime.strptime(entry.published, "%a, %d %b %Y %H:%M:%S %z")
-        print(pub_time.isoformat())
         paper = Paper(title=entry.title.strip().replace("\n", " "),
                         publication_time=pub_time,
                         authors=[str(author.name) for author in entry.authors],
